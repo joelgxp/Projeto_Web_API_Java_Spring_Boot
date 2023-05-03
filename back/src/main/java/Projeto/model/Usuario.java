@@ -1,4 +1,4 @@
-package Projeto.API.model;
+package Projeto.model;
 
 import jakarta.persistence.*;
 
