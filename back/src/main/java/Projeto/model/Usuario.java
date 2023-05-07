@@ -1,6 +1,14 @@
 package Projeto.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+@Data
 
 @Entity
 @Table(name = "usuario")
@@ -9,54 +17,24 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-
     private Integer id;
-    @Column(name = "nome", length = 200, nullable = true)
+
+    @Size(min = 3, message = "Deve ter no minimo 3 caracteres")
+    @NotBlank(message = "Campo nome obrigatorio")
+    @Column(name = "nome", length = 200, nullable = false)
     private String nome;
-    @Column(name = "email", length = 50, nullable = true)
+
+    @Email(message = "Email invalido")
+    @NotBlank(message = "Campo email obrigatorio")
+    @Column(name = "email", length = 50, nullable = false)
     private String email;
-    @Column(name = "senha", columnDefinition = "TEXT", nullable = true)
+
+    @NotBlank(message = "Campo senha obrigatorio")
+    @Column(name = "senha", columnDefinition = "TEXT", nullable = false)
     private String senha;
-    @Column(name = "telefone", length = 15, nullable = true)
+
+    @NotBlank(message = "Campo tefone obrigatorio")
+    @Column(name = "telefone", length = 15, nullable = false)
     private String telefone;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
 }
