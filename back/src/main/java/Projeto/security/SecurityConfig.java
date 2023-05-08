@@ -23,10 +23,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers(HttpMethod.GET, "/usuarios").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/usuarios/login").permitAll()
                         .anyRequest().authenticated()
 
                 );
+        http.addFilterBefore(new SecurityFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

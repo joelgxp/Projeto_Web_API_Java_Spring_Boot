@@ -1,7 +1,9 @@
 package Projeto.controller;
 
+import Projeto.dto.UsuarioDTO;
 import Projeto.repository.IUsuario;
 import Projeto.model.Usuario;
+import Projeto.security.Token;
 import Projeto.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,12 +51,12 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Usuario> validaSenha(@Valid @RequestBody Usuario usuario) {
-        Boolean valida = usuarioService.validarSenha(usuario);
-        if (!valida) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<Token> logar(@Valid @RequestBody UsuarioDTO usuario) {
+        Token token = usuarioService.gerarToken(usuario);
+        if (token != null) {
+            return ResponseEntity.ok(token);
         }
-        return ResponseEntity.status(200).build();
+        return ResponseEntity.status(403).build();
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

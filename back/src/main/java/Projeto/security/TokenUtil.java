@@ -1,5 +1,8 @@
 package Projeto.security;
 
+import java.security.Key;
+import java.util.Collections;
+import java.util.Date;
 import Projeto.model.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -10,25 +13,22 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
-import java.security.Key;
-import java.util.Collections;
-import java.util.Date;
 
 
 public class TokenUtil {
     private static final String HEADER = "Authorization";
-    private static final String PREFIX = "Bearer";
+    private static final String PREFIX = "Bearer ";
     private static final long EXPIRATION = 12*60*60*1000;
     private static final String SECRET_KEY = "gB2uWcOSauwQqzudQ2JgsXxwfxYz5XZD";
     private static final String EMISSOR = "DevNice";
 
-    private static String creatToken(Usuario usuario) {
+    public static String createToken(Usuario usuario) {
         Key secretKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
         String token = Jwts.builder()
                            .setSubject(usuario.getNome())
                            .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
-                           .signWith(SignatureAlgorithm.HS256, secretKey)
+                           .signWith(secretKey, SignatureAlgorithm.HS256)
                            .compact();
         return PREFIX + token;
     }
